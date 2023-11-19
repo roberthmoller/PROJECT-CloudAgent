@@ -1,13 +1,6 @@
 package com.hjortsholm.robert.llm.v1
 
-import com.google.gson.Gson
-import org.junit.jupiter.api.Assertions.*
-import kotlin.reflect.KClass
-import kotlin.reflect.full.declaredMemberFunctions
-import kotlin.reflect.full.findAnnotations
-import kotlin.reflect.full.functions
-import kotlin.reflect.full.hasAnnotation
-import kotlin.reflect.javaType
+import com.hjortsholm.robert.llm.v1.skills.Skill
 
 
 open class Example {

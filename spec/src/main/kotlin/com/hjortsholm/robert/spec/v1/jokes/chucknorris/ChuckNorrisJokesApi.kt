@@ -1,18 +1,15 @@
-package com.hjortsholm.robert.spec.v1
+package com.hjortsholm.robert.spec.v1.jokes.chucknorris
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
-import java.util.Collections.emptyList
 
 @FeignClient(name = "ChuckNorrisJokes", url = "https://api.chucknorris.io/jokes/")
-interface ChuckNorrisJokes {
+interface ChuckNorrisJokesApi {
     @GetMapping("/random")
     @Operation(summary = "Returns a random Chuck Norris joke")
-    fun randomJoke(): ChuckNorrisJoke
+    fun getRandomJoke(): ChuckNorrisJoke
 
     @GetMapping("/random")
     @Operation(summary = "Returns a random Chuck Norris joke from a given category")
@@ -28,16 +25,3 @@ interface ChuckNorrisJokes {
 }
 
 
-data class ChuckNorrisJoke @JsonCreator constructor(
-    @JsonProperty("categories") val categories: List<String>? = emptyList(),
-    @JsonProperty("icon_url") val iconUrl: String,
-    @JsonProperty("id") val id: String,
-    @JsonProperty("updated_at") val updatedAt: String,
-    @JsonProperty("url") val url: String,
-    @JsonProperty("value") val value: String,
-)
-
-data class ChuckNorrisJokeSearchResult @JsonCreator constructor(
-    @JsonProperty("total") val total: Int,
-    @JsonProperty("result") val result: List<ChuckNorrisJoke>,
-)

@@ -10,7 +10,8 @@ If you do not know then you can reply with:
 If you have the answer then you can reply with:
 \{"skill":"answer","parameters":\{"answer":"\<your answer\>"\}\}
 
-If the service or skill has not been mentioned, do not make up anything, just reply with unknown
+If the service or skill has not been mentioned, do not make up anything, just reply with unknown.
+Always choose the skill that is most appropriate for the situation.
 
 The user prompt is:
 {prompt}
