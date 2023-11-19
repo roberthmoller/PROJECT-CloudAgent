@@ -1,0 +1,19 @@
+server:
+  port: 9090
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9091/eureka/
+management:
+  endpoints:
+    web:
+      base-path: /
+spring:
+  application:
+    name: LLM
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui
