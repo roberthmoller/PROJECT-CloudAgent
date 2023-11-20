@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
+import org.springframework.ai.document.Document
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -25,7 +26,8 @@ class LlmController(
     private val wikipedia: WikipediaApi,
     private val advice: AdviceApi,
     private val picsum: LoremPicsumApi,
-    private val unsplash: UnsplashApi
+    private val unsplash: UnsplashApi,
+    private val memory: MemoryService,
 ) {
 
     @PostMapping("/ai")
@@ -49,6 +51,7 @@ class LlmController(
     fun picsum(): ByteArray {
         return picsum.getRandomPhoto(500, 500)
     }
+
     @GetMapping("/unsplash", produces = ["image/jpeg"])
     fun unsplash(): ByteArray {
         return unsplash.getPhotoOfSubject("nature,winter")
@@ -57,6 +60,11 @@ class LlmController(
     @GetMapping("/skills")
     fun skills(): List<String> {
         return skills.values.map { it.toString() }
+    }
+
+    @GetMapping("/mem")
+    fun mem(): String {
+        return memory.findBikesRelevantTo("comfortable").joinToString("\n") { it.toString() }
     }
 
     @PostMapping("/chuck")

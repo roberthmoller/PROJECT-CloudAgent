@@ -11,6 +11,13 @@ management:
 spring:
   application:
     name: LLM
+  cloud:
+    openfeign:
+      httpclient:
+        connection-timeout: 120000
+        ok-http:
+          read-timeout: 120000
+
 
 springdoc:
   api-docs:

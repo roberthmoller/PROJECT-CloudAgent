@@ -19,12 +19,3 @@ interface AdviceApi {
     @Operation(summary = "Search for a piece of advice about a given topic")
     fun searchForAdvice(@PathVariable("query") query: String): AdviceSearchResult
 }
-
-class CustomHttpMessageConverter : GsonHttpMessageConverter() {
-    fun MyGsonHttpMessageConverter() {
-        val types: List<MediaType> = Arrays.asList<MediaType>(
-            MediaType("text", "html", DEFAULT_CHARSET)
-        )
-        super.setSupportedMediaTypes(types)
-    }
-}

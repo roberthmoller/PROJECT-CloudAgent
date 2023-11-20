@@ -14,10 +14,11 @@ data class Skill(val function: KFunction<Any>) {
             }
 
     fun invoke(args: Map<String, Any?>): Any {
-        val functionArgs = args.mapKeys { (key, value) ->
+        val functionArgs = args.mapKeys { (key, _) ->
             function.parameters.find { it.name == key }!!
         }
-        return function.callBy(functionArgs)
+        return if (args.isEmpty()) function.call()
+        else function.callBy(functionArgs)
     }
 
     override fun toString(): String {

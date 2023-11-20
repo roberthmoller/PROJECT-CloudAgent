@@ -22,7 +22,11 @@ class LlmConfiguration {
     }
 
     @Bean
-    fun orchestratorPrompt(@Value("classpath:/prompts/orchestrator.st") template: Resource): PromptTemplate {
+    fun functionCallPrompt(@Value("classpath:/prompts/function-call.st") template: Resource): PromptTemplate {
+        return PromptTemplate(template)
+    }
+    @Bean
+    fun responsePrompt(@Value("classpath:/prompts/response.st") template: Resource): PromptTemplate {
         return PromptTemplate(template)
     }
 }

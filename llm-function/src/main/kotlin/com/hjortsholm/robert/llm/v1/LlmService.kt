@@ -10,17 +10,18 @@ import org.springframework.stereotype.Service
 @Service
 class LlmService(
     private val mistral: AiClient,
-    private val orchestratorPrompt: PromptTemplate,
+    private val functionCallPrompt: PromptTemplate,
+    private val responsePrompt: PromptTemplate,
     private val skills: Map<String, Skill>
 ) {
     fun ask(prompt: String): Any {
-        val input = orchestratorPrompt.render(
+        val input = functionCallPrompt.render(
             mapOf(
                 "skills" to skills.values.joinToString(",\n"),
                 "prompt" to prompt,
             )
         )
-        println("=========== Prompt ===========\n$input")
+        println("=========== Function Prompt ===========\n$input")
         val result = mistral.generate(input)
         println("=========== Invoke ===========\n$result")
         val gson = Gson()
@@ -31,6 +32,15 @@ class LlmService(
             else -> skills[invocation.skill]!!.invoke(invocation.parameters)
         }
         println("=========== Result ===========\n$invocationResult")
-        return invocationResult
+
+        val responseInput = responsePrompt.render(
+            mapOf(
+                "prompt" to prompt,
+                "context" to invocationResult,
+            )
+        )
+        println("=========== Response Prompt ===========\n$responseInput")
+        val responseResult = mistral.generate(responseInput)
+        return responseResult
     }
 }
