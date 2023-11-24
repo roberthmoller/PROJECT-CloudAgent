@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <artifactId>cloud-ai</artifactId>
         <groupId>com.hjortsholm.robert.llm</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>spec</artifactId>
-    <name>spec</name>
+    <artifactId>lib</artifactId>
+    <name>lib</name>
+    <description>lib</description>
     <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
@@ -23,7 +22,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-openfeign-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
@@ -31,7 +29,14 @@
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations-jakarta</artifactId>
-            <version>${swagger-annotations-jakarta.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
     </dependencies>
     <build>
@@ -54,7 +59,6 @@
                             </args>
                         </configuration>
                     </execution>
-
                     <execution>
                         <id>test-compile</id>
                         <goals>
@@ -71,3 +75,4 @@
         </plugins>
     </build>
 </project>
+

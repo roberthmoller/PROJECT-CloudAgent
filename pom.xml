@@ -4,28 +4,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--    <parent>-->
-    <!--        <groupId>org.springframework.boot</groupId>-->
-    <!--        <artifactId>spring-boot-starter-parent</artifactId>-->
-    <!--        <version>3.1.5</version>-->
-    <!--    </parent>-->
-
     <artifactId>cloud-ai</artifactId>
-    <groupId>com.hjortsholm.robert</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>com.hjortsholm.robert.llm</groupId>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Cloud AI</name>
 
     <modules>
         <module>discovery</module>
-        <module>llm-function</module>
-        <module>llm-orchestrator</module>
         <module>spec</module>
+        <module>lib</module>
+        <module>comedian</module>
+        <!--        <module>llm-function</module>-->
+        <!--        <module>llm-orchestrator</module>-->
     </modules>
 
     <properties>
-        <global.version>1.0-SNAPSHOT</global.version>
+        <global.version>0.0.1-SNAPSHOT</global.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
@@ -41,14 +37,15 @@
         <lombok.version>1.18.30</lombok.version>
 
         <springdoc-openapi-starter-webmvc-ui.version>2.1.0</springdoc-openapi-starter-webmvc-ui.version>
-        <jackson-module-kotlin.version>2.15.3</jackson-module-kotlin.version>
+        <jackson.version>2.15.3</jackson.version>
         <spring-cloud-starter-netflix-eureka-client.version>4.0.3</spring-cloud-starter-netflix-eureka-client.version>
         <kotlin-test-junit5.version>1.9.20</kotlin-test-junit5.version>
         <junit-jupiter-engine.version>5.10.0</junit-jupiter-engine.version>
         <assertj-core.version>3.24.2</assertj-core.version>
-        <spring-cloud-openfeign-core.version>4.0.4</spring-cloud-openfeign-core.version>
+        <spring-cloud-openfeign-core.version>4.1.0-RC1</spring-cloud-openfeign-core.version>
         <gson.version>2.10.1</gson.version>
         <spring-boot-devtools.version>3.1.2</spring-boot-devtools.version>
+        <swagger-annotations-jakarta.version>2.2.9</swagger-annotations-jakarta.version>
     </properties>
 
 
@@ -56,9 +53,9 @@
         <dependencies>
             <!--Internal-->
             <dependency>
-                <groupId>com.hjortsholm.robert</groupId>
+                <groupId>com.hjortsholm.robert.llm</groupId>
                 <artifactId>spec</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <!--Spring Boot-->
             <dependency>
@@ -121,7 +118,11 @@
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations-jakarta</artifactId>
+                <version>${swagger-annotations-jakarta.version}</version>
+            </dependency>
             <!--DevTools-->
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -144,7 +145,12 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-kotlin</artifactId>
-                <version>${jackson-module-kotlin.version}</version>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
             <!--Compiler-->
             <dependency>
@@ -162,6 +168,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring-boot.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -197,6 +204,13 @@
             <id>mavenCentral</id>
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
-
 </project>

@@ -1,5 +1,6 @@
 package com.hjortsholm.robert.llmorchestrator
 
+import com.hjortsholm.robert.spec.v1.internal.LlmFunction
 import org.springframework.ai.client.AiClient
 import org.springframework.ai.ollama.client.OllamaClient
 import org.springframework.ai.prompt.PromptTemplate
@@ -7,13 +8,13 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
+import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.RestController
 
-//@EnableFeignClients(basePackages = ["com.hjortsholm.robert.spec.v1", "com.hjortsholm.robert.llm-orchestrator.v1"])
 @SpringBootApplication
 @EnableFeignClients
 class LlmOrchestratorApplication
@@ -22,8 +23,15 @@ fun main(args: Array<String>) {
     runApplication<LlmOrchestratorApplication>(*args)
 }
 
+@FeignClient(name = "LlmFunction", url = "http://localhost:9090")
+interface ExampleLlmFunction : LlmFunction<Any>
+
 @Service
-class OrchestratorService(private val mistral: AiClient) {
+class OrchestratorService(
+    private val mistral: AiClient,
+    private val orchestratorPrompt: PromptTemplate,
+    private val llmFunction: ExampleLlmFunction
+) {
 
     /**
      * Ask the AI a question
@@ -39,15 +47,26 @@ class OrchestratorService(private val mistral: AiClient) {
      * 4. Evaluate result
      * 5. Formulate a response
      */
-    fun ask(prompt: String): Any {
-        val result = mistral.generate(prompt)
-
-        return result
-    }
+//    fun ask(prompt: String): Any {
+//        val renderedPrompt = orchestratorPrompt.render(
+//            mapOf(
+//                "prompt" to prompt,
+//            )
+//        )
+//
+//        val strategy = mistral.generate(renderedPrompt)
+//        println("=========== Strategy ===========\n$strategy")
+//        llmFunction.call(strategy)
+//        return result
+//    }
 }
 
+
 @RestController
-class LlmOrchestratorController {
+class LlmOrchestratorController(
+    private val orchestrator: OrchestratorService
+) : LlmFunction<Any> {
+    override fun call(prompt: String): Any = orchestrator.ask(prompt)
 }
 
 @Configuration
@@ -58,8 +77,14 @@ class LlmConfiguration {
     @Bean
     fun mistral(): AiClient = OllamaClient("http://127.0.0.1:11434", "mistral")
 
-//	@Bean
-//	fun systemPrompt(@Value("classpath:/prompts/system.st") template: Resource): PromptTemplate {
-//		return PromptTemplate(template)
-//	}
+    @Bean
+    fun orchestratorPrompt(@Value("classpath:/templates/orchestrator.st") template: Resource): PromptTemplate {
+        return PromptTemplate(template)
+    }
+}
+
+data class MicroService(
+    val function: LlmFunction<Any>,
+) {
+
 }
