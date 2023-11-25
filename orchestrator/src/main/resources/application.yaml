@@ -1,6 +1,5 @@
-
 server:
-  port: 9092
+  port: 9091
 eureka:
   client:
     serviceUrl:
@@ -11,7 +10,7 @@ management:
       base-path: /
 spring:
   application:
-    name: Comedian
+    name: Orchestrator
   cloud:
     openfeign:
       httpclient:

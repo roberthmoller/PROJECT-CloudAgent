@@ -6,6 +6,7 @@
     <file url="file://$PROJECT_DIR$/dependencies/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/dependencies/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/discovery/src/main/kotlin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/discovery/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lib/src/main/kotlin" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lib/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/llm-function/src/main/kotlin" charset="UTF-8" />
@@ -14,6 +15,8 @@
     <file url="file://$PROJECT_DIR$/llm-lib/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/llm-orchestrator/src/main/kotlin" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/llm-orchestrator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orchestrator/src/main/kotlin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orchestrator/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spec/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spec/src/main/kotlin" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spec/src/main/resources" charset="UTF-8" />

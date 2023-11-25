@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam
 interface ChuckNorrisJokesApi {
     @GetMapping("/random")
     @Operation(summary = "Returns a random Chuck Norris joke")
-    fun getRandomJoke(): ChuckNorrisJoke
+    fun getOneRandomJoke(): ChuckNorrisJoke
 
     @GetMapping("/random")
     @Operation(summary = "Returns a random Chuck Norris joke from a given category")
-    fun randomJokeInCategory(@RequestParam("category") category: String): ChuckNorrisJoke
+    fun getOneRandomJokeAbout(@RequestParam("category") category: String): ChuckNorrisJoke
 
     @GetMapping("/categories")
     @Operation(summary = "Returns a list of all possible categories")

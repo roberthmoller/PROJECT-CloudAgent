@@ -6,7 +6,8 @@ import kotlin.reflect.full.findAnnotations
 
 data class Skill(val function: KFunction<Any>) {
     val skill get() = function.name
-    val description get() = function.findAnnotations<Operation>().firstOrNull()?.summary
+
+    //    val description get() = function.findAnnotations<Operation>().firstOrNull()?.summary ?: ""
     val params: Map<String, String>
         get() = function.parameters
             .associate {
@@ -24,6 +25,7 @@ data class Skill(val function: KFunction<Any>) {
     }
 
     override fun toString(): String {
-        return "{\"skill\": \"$skill\", \"description\":\"$description\", \"params\": $params}"
+        //language=JSON
+        return "{\"skill\":\"$skill\",\"parameters\":$params}"
     }
 }

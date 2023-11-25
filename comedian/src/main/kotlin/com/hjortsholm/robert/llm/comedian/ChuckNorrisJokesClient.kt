@@ -4,7 +4,13 @@ import com.hjortsholm.robert.llm.spec.v1.external.jokes.chucknorris.ChuckNorrisJ
 import com.hjortsholm.robert.llm.spec.v1.external.jokes.chucknorris.ChuckNorrisJokesApi
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.cloud.openfeign.FeignClient
+import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.GetMapping
 
 @FeignClient(name = "ChuckNorrisJokes", url = "https://api.chucknorris.io/jokes/")
 interface ChuckNorrisJokesClient: ChuckNorrisJokesApi
+
+@Component
+class ChuckNorrisJokesWrapper(private val client: ChuckNorrisJokesClient) {
+    fun getOneRandomJoke(): String = client.getOneRandomJoke().value
+}

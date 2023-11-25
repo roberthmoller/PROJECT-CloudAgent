@@ -16,8 +16,7 @@
         <module>spec</module>
         <module>lib</module>
         <module>comedian</module>
-        <!--        <module>llm-function</module>-->
-        <!--        <module>llm-orchestrator</module>-->
+        <module>orchestrator</module>
     </modules>
 
     <properties>
