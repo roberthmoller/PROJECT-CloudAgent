@@ -1,26 +1,41 @@
 package com.hjortsholm.robert.llm.comedian
 
 import com.hjortsholm.robert.llm.AiAgent
-import com.hjortsholm.robert.llm.spec.v1.external.jokes.chucknorris.ChuckNorrisJoke
+import com.hjortsholm.robert.llm.Skill
 import com.hjortsholm.robert.llm.spec.v1.external.jokes.chucknorris.ChuckNorrisJokesApi
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.ai.client.AiClient
+import org.springframework.ai.ollama.client.OllamaClient
+import org.springframework.ai.prompt.PromptTemplate
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.core.io.Resource
 import org.springframework.web.bind.annotation.RestController
-import kotlin.reflect.KFunction
+
+
 
 @RestController
 class ComedianAgent(
-    private val chuckNorrisJokes: ChuckNorrisJokesApi
-) : AiAgent<String> {
-    override val name: String = "Comedian"
-    override val skills = listOf(chuckNorrisJokes::getRandomJoke)
+    @Value("classpath:/prompts/system-definition.st")
+    systemDefinitionResource: Resource,
+    @Value("classpath:/prompts/function-call.st")
+    functionCallResource: Resource,
+    chuckNorrisJokes: ChuckNorrisJokesApi,
+    mistral: AiClient,
+) : AiAgent(
+    name = "Comedian",
+    skills = listOf(Skill(chuckNorrisJokes::getRandomJoke)),
+    llm = mistral,
+    systemDefinitionTemplate = PromptTemplate(systemDefinitionResource),
+    functionCallTemplate = PromptTemplate(functionCallResource),
+    null,
+)
 
-    override fun ask(prompt: String): String {
-        return "Comedian"
-    }
+@Configuration
+class LlmConfiguration {
+    @Bean
+    fun llama2(): AiClient = OllamaClient("http://127.0.0.1:11434", "llama2")
 
-    @GetMapping("/joke")
-    fun joke(): String {
-        return chuckNorrisJokes.getRandomJoke().value
-    }
+    @Bean
+    fun mistral(): AiClient = OllamaClient("http://127.0.0.1:11434", "mistral")
 }

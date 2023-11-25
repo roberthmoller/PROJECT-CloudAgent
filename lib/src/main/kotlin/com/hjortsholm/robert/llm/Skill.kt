@@ -14,8 +14,10 @@ data class Skill(val function: KFunction<Any>) {
             }
 
     fun invoke(args: Map<String, Any?>): Any {
-        val functionArgs = args.mapKeys { (key, _) ->
-            function.parameters.find { it.name == key }!!
+        val functionArgs = function.parameters
+            .associateWith { args[it.name] }
+        if (functionArgs.any { it.value == null }) {
+            throw IllegalArgumentException("Missing arguments: ${functionArgs.filter { it.value == null }.keys}")
         }
         return if (args.isEmpty()) function.call()
         else function.callBy(functionArgs)

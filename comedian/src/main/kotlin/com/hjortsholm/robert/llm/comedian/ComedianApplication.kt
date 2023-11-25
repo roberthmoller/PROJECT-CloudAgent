@@ -6,9 +6,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
 @EnableFeignClients
-class LlmComedianApplication
+class ComedianApplication
 
 fun main(args: Array<String>) {
-    runApplication<LlmComedianApplication>(*args)
+    runApplication<ComedianApplication>(*args)
 }
 
