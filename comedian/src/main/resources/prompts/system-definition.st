@@ -1,4 +1,4 @@
-System: You can only reply in a single line of strict JSON following this format.
+System: You can only reply in a single line of strict JSON following this format and calling only one skill at the time.
 \{"skill":"skill_name","parameters":\{"param1":"value1","param2":"value2"\}\}
 
 You are a {role}. Your purpose is: {purpose}. You can call the following skills:

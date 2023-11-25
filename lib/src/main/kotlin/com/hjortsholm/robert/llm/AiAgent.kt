@@ -2,7 +2,6 @@ package com.hjortsholm.robert.llm
 
 import com.google.gson.Gson
 import com.hjortsholm.robert.llm.function.v1.skills.SkillInvocation
-import jdk.jfr.Description
 import org.springframework.ai.client.AiClient
 import org.springframework.ai.prompt.PromptTemplate
 import org.springframework.web.bind.annotation.*
@@ -36,7 +35,8 @@ interface AiAgent : AiApi {
     // todo: Cache llm responses
     override fun challenge(@RequestBody goal: String): AiResponse {
         val agentSkills = skills()
-        val systemPrompt = systemDefinitionTemplate.render(
+
+        val systemPrompt = PromptTemplate(systemDefinitionTemplate.template).render(
             mapOf(
                 "role" to name,
                 "purpose" to (purpose ?: "address the user prompt to the best of your ability"),
@@ -50,25 +50,27 @@ interface AiAgent : AiApi {
         println("=========== System Message ===========\n$systemPrompt")
         println("=========== Session Prompt ===========\n$goal")
         for (i in 0 until MAX_ITERATIONS) {
-            if (hasFormulatedResponse) break
             val sessionPrompt = currentSession.joinToString("\n")
-            val invocationAsString = llm.generate(sessionPrompt)
-            val invocationAsJson = "{${invocationAsString.substringAfter('{').substringBeforeLast('}')}}"
+            val rawInvocationAsString = llm.generate(sessionPrompt)
+            val rawInvocationAsJson = "[{${rawInvocationAsString.substringAfter('{').substringBeforeLast('}')}}]"
+            val invocation = GSON.fromJson(rawInvocationAsJson, Array<SkillInvocation>::class.java).first()
+            val invocationAsJson = GSON.toJson(invocation)
             println("=========== Invoke ===========\n$invocationAsJson")
-            val invocation = GSON.fromJson(invocationAsJson, SkillInvocation::class.java)
             val result = when (invocation.skill) {
                 "answer" -> {
                     hasFormulatedResponse = true
                     invocation.parameters?.get("response")?.toString() ?: "No response"
                 }
+
                 in agentSkills -> agentSkills[invocation.skill]!!.invoke(invocation.parameters ?: emptyMap())
                 else -> "No such skill ${invocation.skill}"
             }
+            if (hasFormulatedResponse) break
             val resultAsJson = GSON.toJson(result)
-            invocations.addLast(SkillResult(invocation, result))
             println("=========== Result ===========\n$resultAsJson")
+            invocations.addLast(SkillResult(invocation, result))
             currentSession.addLast(
-                functionCallTemplate.render(
+                PromptTemplate(functionCallTemplate.template).render(
                     mapOf(
                         "function" to invocationAsJson,
                         "result" to resultAsJson,

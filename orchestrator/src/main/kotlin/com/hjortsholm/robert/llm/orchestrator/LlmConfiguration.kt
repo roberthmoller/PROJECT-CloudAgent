@@ -8,5 +8,13 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class LlmConfiguration {
     @Bean
-    fun mistral(): AiClient = OllamaClient("http://127.0.0.1:11434", "mistral")
+    fun mistral(): AiClient = clientOf("mistral")
+
+    @Bean
+    fun orca(): AiClient = clientOf("orca-mini")
+
+    @Bean
+    fun coder(): AiClient = clientOf("wizardcoder")
+
+    private fun clientOf(model: String) = OllamaClient("http://127.0.0.1:11434", model)
 }

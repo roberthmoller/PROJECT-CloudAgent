@@ -17,3 +17,6 @@ spring:
         connection-timeout: 120000
         ok-http:
           read-timeout: 120000
+
+deepl:
+  authKey: 2ab8132c-eeb9-c8cb-2e48-2538e144b571:fx
