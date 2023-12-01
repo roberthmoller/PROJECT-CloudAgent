@@ -9,14 +9,14 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Cloud AI</name>
+    <name>Spring Boot Agent Library</name>
 
     <modules>
-        <module>discovery</module>
-        <module>spec</module>
-        <module>lib</module>
-        <module>comedian</module>
-        <module>orchestrator</module>
+        <module>agent-lib</module>
+        <module>example/comedian</module>
+        <module>example/discovery</module>
+        <module>example/orchestrator</module>
+        <module>example/skills</module>
     </modules>
 
     <properties>
